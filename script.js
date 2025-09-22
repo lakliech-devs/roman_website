@@ -274,11 +274,11 @@ function createWasteBookingItemHTML(booking) {
         </div>
         <div class="booking-detail">
           <div class="booking-detail-label">Address</div>
-          <div class="booking-detail-value">${booking.estate}, ${booking.street}, House ${booking.houseNo}</div>
+          <div class="booking-detail-value">${booking.estate}, ${booking.street}, House ${booking.houseNo}${booking.flat ? ", Flat " + booking.flat : ""}</div>
         </div>
         <div class="booking-detail">
           <div class="booking-detail-label">Contact</div>
-          <div class="booking-detail-value">${booking.mobile} | ${booking.email}</div>
+          <div class="booking-detail-value">Mobile: ${booking.mobile}${booking.telephone ? ", Tel: " + booking.telephone : ""}${booking.altMobile ? ", Alt: " + booking.altMobile : ""}<br>Email: ${booking.email}</div>
         </div>
       </div>
       ${
@@ -701,8 +701,16 @@ function updateMusicSlots() {
     return
   }
 
-  // Generate time slots (7 AM to 5 PM, 2-hour sessions, skip lunch 1-2 PM)
-  const slots = ["07:00-09:00", "09:00-11:00", "11:00-13:00", "14:00-16:00", "16:00-18:00"]
+  // Generate time slots (7 AM to 10 PM, 2-hour sessions, skip lunch 1-2 PM)
+  const slots = [
+    "07:00-09:00",
+    "09:00-11:00",
+    "11:00-13:00",
+    "14:00-16:00",
+    "16:00-18:00",
+    "18:00-20:00",
+    "20:00-22:00",
+  ]
 
   slotSelect.innerHTML = '<option value="">Select a time slot</option>'
 
@@ -710,7 +718,7 @@ function updateMusicSlots() {
     const isBooked = bookings.music[selectedDate] && bookings.music[selectedDate].includes(slot)
     const option = document.createElement("option")
     option.value = slot
-    option.textContent = isBooked ? `${slot} (Booked)` : slot
+    option.textContent = isBooked ? `${slot} (Booked)` : `${slot} - KSh 10,000 (Individual/Group)`
     option.disabled = isBooked
     slotSelect.appendChild(option)
   })
@@ -1103,7 +1111,7 @@ function bookMusicSession() {
     generateCalendar()
   }
 
-  alert(`Music session booked successfully!\nDate: ${date}\nTime: ${slot}\nArtist: ${artist}`)
+  alert(`Music session booked successfully!\\nDate: ${date}\\nTime: ${slot}\\nArtist: ${artist}\\nCost: KSh 10,000`)
 }
 
 function bookVideoSession() {
@@ -1144,7 +1152,9 @@ function bookVideoSession() {
     generateCalendar()
   }
 
-  alert(`Video production session booked successfully!\nDate: ${date}\nClient: ${artist}`)
+  alert(
+    `Video production session booked successfully!\\nDate: ${date}\\nClient: ${artist}\\nCost: From KSh 30,000 (depending on budget)`,
+  )
 }
 
 // E-book System Data Storage
